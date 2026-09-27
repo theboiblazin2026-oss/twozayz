@@ -102,6 +102,24 @@ function initMobileMenu() {
    3. Before & After Interactive Slider
    ========================================================================== */
 const transformationData = {
+  truck: {
+    before: 'truck-before.jpg',
+    after: 'truck-after.jpg',
+    altBefore: 'Dodge Ram 1500 truck before exterior wash covered in road grime and mud splatter',
+    altAfter: 'Dodge Ram 1500 truck after TWOZAYZ full exterior detail with mirror gloss silver finish'
+  },
+  wheel: {
+    before: 'wheel-before.jpg',
+    after: 'wheel-after.jpg',
+    altBefore: 'Truck chrome wheel before detailing with brake dust and faded tire rubber',
+    altAfter: 'Truck wheel after TWOZAYZ detail with brilliant chrome shine and deep wet tire dressing'
+  },
+  mirror: {
+    before: 'mirror-before.jpg',
+    after: 'mirror-after.jpg',
+    altBefore: 'Truck towing mirror glass with heavy hard water spots and mineral etching',
+    altAfter: 'Crystal clear truck mirror glass after TWOZAYZ water spot removal treatment'
+  },
   driveway: {
     before: 'driveway-before.jpg',
     after: 'driveway-after.jpg',
@@ -139,43 +157,131 @@ function initBeforeAfterSlider() {
   }
 
   // Set initial images
-  updateSliderData('driveway');
+  updateSliderData('truck');
   syncImageWidth();
   window.addEventListener('resize', syncImageWidth);
 
   let isDragging = false;
+  let isHovered = false;
+  let autoGlideActive = true;
+  let autoGlideTimer = null;
+  let animationFrameId = null;
+  let glidePhase = 0;
+
+  function applyPosition(percent) {
+    if (percent < 0) percent = 0;
+    if (percent > 100) percent = 100;
+    beforeWrapper.style.width = `${percent}%`;
+    handle.style.left = `${percent}%`;
+  }
 
   function setSliderPosition(x) {
     const rect = slider.getBoundingClientRect();
     let position = ((x - rect.left) / rect.width) * 100;
-    
-    if (position < 0) position = 0;
-    if (position > 100) position = 100;
+    applyPosition(position);
+  }
 
-    beforeWrapper.style.width = `${position}%`;
-    handle.style.left = `${position}%`;
+  // Smooth sinusoidal auto-glide
+  function stepAutoGlide() {
+    if (autoGlideActive && !isDragging && !isHovered) {
+      glidePhase += 0.014;
+      const sinVal = Math.sin(glidePhase);
+      const position = 50 + sinVal * 36; // Sweeps smoothly from 14% to 86%
+      applyPosition(position);
+    }
+    animationFrameId = requestAnimationFrame(stepAutoGlide);
+  }
+
+  function pauseAutoGlide() {
+    autoGlideActive = false;
+    if (autoGlideTimer) clearTimeout(autoGlideTimer);
+  }
+
+  function resumeAutoGlideAfterDelay(delayMs = 3000) {
+    if (autoGlideTimer) clearTimeout(autoGlideTimer);
+    autoGlideTimer = setTimeout(() => {
+      const currentPos = parseFloat(handle.style.left) || 50;
+      const clamped = Math.max(14, Math.min(86, currentPos));
+      const normalized = (clamped - 50) / 36;
+      glidePhase = Math.asin(Math.max(-1, Math.min(1, normalized)));
+      autoGlideActive = true;
+    }, delayMs);
   }
 
   // Event Listeners for dragging
   slider.addEventListener('mousedown', (e) => {
+    pauseAutoGlide();
     isDragging = true;
     setSliderPosition(e.clientX);
   });
 
-  window.addEventListener('mouseup', () => { isDragging = false; });
+  window.addEventListener('mouseup', () => {
+    if (isDragging) {
+      isDragging = false;
+      resumeAutoGlideAfterDelay(3000);
+    }
+  });
+
   window.addEventListener('mousemove', (e) => {
-    if (isDragging) setSliderPosition(e.clientX);
+    if (isDragging) {
+      pauseAutoGlide();
+      setSliderPosition(e.clientX);
+    }
   });
 
   // Touch support for mobile
   slider.addEventListener('touchstart', (e) => {
+    pauseAutoGlide();
     isDragging = true;
     setSliderPosition(e.touches[0].clientX);
   }, { passive: true });
-  window.addEventListener('touchend', () => { isDragging = false; });
+
+  window.addEventListener('touchend', () => {
+    if (isDragging) {
+      isDragging = false;
+      resumeAutoGlideAfterDelay(3000);
+    }
+  });
+
   window.addEventListener('touchmove', (e) => {
-    if (isDragging) setSliderPosition(e.touches[0].clientX);
+    if (isDragging) {
+      pauseAutoGlide();
+      setSliderPosition(e.touches[0].clientX);
+    }
   }, { passive: true });
+
+  // Hover detection for desktop
+  slider.addEventListener('mouseenter', () => {
+    isHovered = true;
+  });
+
+  slider.addEventListener('mouseleave', () => {
+    isHovered = false;
+    if (!isDragging) {
+      resumeAutoGlideAfterDelay(1500);
+    }
+  });
+
+  // Start auto-glide when section is visible
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (!animationFrameId) {
+            animationFrameId = requestAnimationFrame(stepAutoGlide);
+          }
+        } else {
+          if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+          }
+        }
+      });
+    }, { threshold: 0.15 });
+    observer.observe(slider);
+  } else {
+    animationFrameId = requestAnimationFrame(stepAutoGlide);
+  }
 
   // Tab button handler
   tabBtns.forEach(btn => {
@@ -184,6 +290,10 @@ function initBeforeAfterSlider() {
       btn.classList.add('active');
       const category = btn.dataset.tab;
       updateSliderData(category);
+      // Reset sweep to center and resume glide smoothly
+      glidePhase = 0;
+      applyPosition(50);
+      resumeAutoGlideAfterDelay(1000);
     });
   });
 

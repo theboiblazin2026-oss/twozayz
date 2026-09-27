@@ -30,7 +30,10 @@ A custom website built for **TWOZAYZ** (Pressure Washing • Car Detailing • L
 - ⭐ **Customer Reviews & Social Proof Section**:
   - 4 verified local customer testimonials covering Pressure Washing, SUV detailing, Lawn Care, and Full house washing in Lake City, FL.
   - 5.0 Star trust badge and verified local homeowner callouts.
-- 🔄 **Before & After Visual Comparison Slider**: Interactive tool with pixel-aligned, authentic Florida photography for:
+- 🔄 **Before & After Visual Comparison Slider**: Interactive tool with pixel-aligned, authentic photography for:
+  - 🛻 **Ram 1500 Full Exterior Detail**: Road dirt, mud splatter, and dull panels vs. gleaming mirror gloss silver paint, chrome polish, and dressed tires.
+  - ✨ **Chrome Wheel & Tire**: Brake dust caked on chrome spokes and dry faded rubber vs. brilliant mirror shine chrome and deep wet tire dressing.
+  - 🔍 **Glass & Water Spot Removal**: Severe mineral etching and clouded towing mirror glass vs. 100% spotless crystal clear reflection.
   - 💦 **Driveway Pressure Washing**: Heavy black algae, tire stains, and Florida mildew vs. spotless bright clean power-washed concrete.
   - 🚘 **Auto Detailing & Tire Shine**: Brake dust coated wheel and faded dry rubber vs. showroom mirror black paint, spotless black alloy rim, and wet tire shine.
   - 🌿 **Lawn Edging & Trim**: Overgrown weeds creeping over sidewalk cracks vs. precision manicured turf with razor-sharp vertical trench edging.
@@ -46,6 +49,13 @@ A custom website built for **TWOZAYZ** (Pressure Washing • Car Detailing • L
 - [index.html](file:///Users/newguy/twozayz-website/index.html) - Complete Semantic HTML5 Structure with OpenGraph & Schema.org
 - [styles.css](file:///Users/newguy/twozayz-website/styles.css) - Custom CSS Hydro Design System, Reviews & Modal Layouts
 - [app.js](file:///Users/newguy/twozayz-website/app.js) - Slider, Navigation, FormSubmit API & SMS/Email Handlers
+- [truck-before.jpg](file:///Users/newguy/twozayz-website/truck-before.jpg) - Dodge Ram 1500 side profile before exterior wash (Before)
+- [truck-after.jpg](file:///Users/newguy/twozayz-website/truck-after.jpg) - Dodge Ram 1500 detailed with mirror gloss silver paint (After)
+- [wheel-before.jpg](file:///Users/newguy/twozayz-website/wheel-before.jpg) - Ram chrome wheel with brake dust and faded rubber (Before)
+- [wheel-after.jpg](file:///Users/newguy/twozayz-website/wheel-after.jpg) - Ram chrome wheel polished mirror shine with tire dressing (After)
+- [mirror-before.jpg](file:///Users/newguy/twozayz-website/mirror-before.jpg) - Truck towing mirror with heavy hard water spots (Before)
+- [mirror-after.jpg](file:///Users/newguy/twozayz-website/mirror-after.jpg) - Truck towing mirror glass crystal clear (After)
+- [wheel-foam.jpg](file:///Users/newguy/twozayz-website/wheel-foam.jpg) - Active wheel cleaner foam action shot (Bonus/Process)
 - [driveway-before.jpg](file:///Users/newguy/twozayz-website/driveway-before.jpg) - Weathered dirty driveway photo (Before)
 - [driveway-after.jpg](file:///Users/newguy/twozayz-website/driveway-after.jpg) - Spotless clean driveway photo (After)
 - [auto-before.jpg](file:///Users/newguy/twozayz-website/auto-before.jpg) - Dirty SUV wheel and faded tire photo (Before)
@@ -60,9 +70,13 @@ A custom website built for **TWOZAYZ** (Pressure Washing • Car Detailing • L
 
 ---
 
-## 🚀 How to View & Launch
+## 🚀 Live 24/7 Production Deployment
 
-You can open the website directly in any web browser:
-1. Open [index.html](file:///Users/newguy/twozayz-website/index.html) directly in your browser.
-2. Test on mobile or desktop layout.
-3. Test tap-to-call, tap-to-text, and the interactive quote request modal!
+The website is officially published, connected to the custom domain, and live 24/7:
+
+* **👑 Primary Custom Domain**: [http://twozayz.com](http://twozayz.com) / [http://www.twozayz.com](http://www.twozayz.com)
+* **🌐 GitHub Pages Backup URL**: [https://theboiblazin2026-oss.github.io/twozayz/](https://theboiblazin2026-oss.github.io/twozayz/)
+* **📦 GitHub Repository**: [https://github.com/theboiblazin2026-oss/twozayz](https://github.com/theboiblazin2026-oss/twozayz)
+
+### Next Level Marketing Tip:
+* **QR Code**: You can generate a QR code pointing directly to `twozayz.com` to print on the brothers' future physical business cards, yard signs, and flyers!
