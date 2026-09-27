@@ -161,12 +161,15 @@ function initBeforeAfterSlider() {
   syncImageWidth();
   window.addEventListener('resize', syncImageWidth);
 
+  const categories = ['truck', 'wheel', 'mirror', 'driveway', 'auto', 'lawn'];
+  let currentCategoryIndex = 0;
   let isDragging = false;
   let isHovered = false;
   let autoGlideActive = true;
-  let autoGlideTimer = null;
+  let autoCycleTimer = null;
   let animationFrameId = null;
   let glidePhase = 0;
+  let lastTimestamp = 0;
 
   function applyPosition(percent) {
     if (percent < 0) percent = 0;
@@ -181,25 +184,62 @@ function initBeforeAfterSlider() {
     applyPosition(position);
   }
 
-  // Smooth sinusoidal auto-glide
-  function stepAutoGlide() {
+  function switchCategory(index, resetHandle = true) {
+    currentCategoryIndex = index;
+    const cat = categories[currentCategoryIndex];
+    tabBtns.forEach(b => {
+      if (b.dataset.tab === cat) {
+        b.classList.add('active');
+        if (typeof b.scrollIntoView === 'function') {
+          b.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+      } else {
+        b.classList.remove('active');
+      }
+    });
+    updateSliderData(cat);
+    if (resetHandle) {
+      glidePhase = 0;
+      applyPosition(50);
+    }
+  }
+
+  function advanceNextCategory() {
+    currentCategoryIndex = (currentCategoryIndex + 1) % categories.length;
+    switchCategory(currentCategoryIndex, true);
+  }
+
+  // Time-synced sinusoidal auto-glide (exact 9.0s cycle per category)
+  function stepAutoGlide(timestamp) {
+    if (!lastTimestamp) lastTimestamp = timestamp;
+    const dt = Math.min(timestamp - lastTimestamp, 100);
+    lastTimestamp = timestamp;
+
     if (autoGlideActive && !isDragging && !isHovered) {
-      glidePhase += 0.014;
+      glidePhase += (2 * Math.PI / 9000) * dt; // 9.0 seconds per full cycle
+      
+      if (glidePhase >= 2 * Math.PI) {
+        glidePhase = 0;
+        advanceNextCategory();
+      }
+
       const sinVal = Math.sin(glidePhase);
-      const position = 50 + sinVal * 36; // Sweeps smoothly from 14% to 86%
+      const position = 50 + sinVal * 36; // Sweeps smoothly between 14% and 86%
       applyPosition(position);
     }
+
     animationFrameId = requestAnimationFrame(stepAutoGlide);
   }
 
   function pauseAutoGlide() {
     autoGlideActive = false;
-    if (autoGlideTimer) clearTimeout(autoGlideTimer);
+    if (autoCycleTimer) clearTimeout(autoCycleTimer);
   }
 
-  function resumeAutoGlideAfterDelay(delayMs = 3000) {
-    if (autoGlideTimer) clearTimeout(autoGlideTimer);
-    autoGlideTimer = setTimeout(() => {
+  function resumeAutoGlideAfterDelay(delayMs = 9000) {
+    if (autoCycleTimer) clearTimeout(autoCycleTimer);
+    autoCycleTimer = setTimeout(() => {
+      lastTimestamp = performance.now();
       const currentPos = parseFloat(handle.style.left) || 50;
       const clamped = Math.max(14, Math.min(86, currentPos));
       const normalized = (clamped - 50) / 36;
@@ -218,7 +258,7 @@ function initBeforeAfterSlider() {
   window.addEventListener('mouseup', () => {
     if (isDragging) {
       isDragging = false;
-      resumeAutoGlideAfterDelay(3000);
+      resumeAutoGlideAfterDelay(9000);
     }
   });
 
@@ -239,7 +279,7 @@ function initBeforeAfterSlider() {
   window.addEventListener('touchend', () => {
     if (isDragging) {
       isDragging = false;
-      resumeAutoGlideAfterDelay(3000);
+      resumeAutoGlideAfterDelay(9000);
     }
   });
 
@@ -258,7 +298,7 @@ function initBeforeAfterSlider() {
   slider.addEventListener('mouseleave', () => {
     isHovered = false;
     if (!isDragging) {
-      resumeAutoGlideAfterDelay(1500);
+      resumeAutoGlideAfterDelay(2000);
     }
   });
 
@@ -268,6 +308,7 @@ function initBeforeAfterSlider() {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           if (!animationFrameId) {
+            lastTimestamp = performance.now();
             animationFrameId = requestAnimationFrame(stepAutoGlide);
           }
         } else {
@@ -280,25 +321,21 @@ function initBeforeAfterSlider() {
     }, { threshold: 0.15 });
     observer.observe(slider);
   } else {
+    lastTimestamp = performance.now();
     animationFrameId = requestAnimationFrame(stepAutoGlide);
   }
 
-  // Tab button handler
-  tabBtns.forEach(btn => {
+  // Tab button manual click handler
+  tabBtns.forEach((btn, idx) => {
     btn.addEventListener('click', () => {
-      tabBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const category = btn.dataset.tab;
-      updateSliderData(category);
-      // Reset sweep to center and resume glide smoothly
-      glidePhase = 0;
-      applyPosition(50);
-      resumeAutoGlideAfterDelay(1000);
+      pauseAutoGlide();
+      switchCategory(idx, false);
+      resumeAutoGlideAfterDelay(10000); // Keep user's chosen tab active for 10s before resuming auto-tour
     });
   });
 
   function updateSliderData(category) {
-    const data = transformationData[category] || transformationData.driveway;
+    const data = transformationData[category] || transformationData.truck;
     beforeImg.src = data.before;
     afterImg.src = data.after;
     beforeImg.alt = data.altBefore;
