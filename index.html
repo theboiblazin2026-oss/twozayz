@@ -7,6 +7,11 @@
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://formsubmit.co; frame-ancestors 'none'; form-action 'self' mailto: sms: tel: https://formsubmit.co;">
 
+  <!-- Preconnect & Preload Google Fonts for Zero Render-Blocking -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <title>TWOZAYZ | Pressure Washing, Car Detailing & Lawn Care • Lake City, FL</title>
   <meta name="description" content="Lake City's twin-brother owned exterior care team. Pressure washing, showroom mobile car detailing, and precision lawn care. Call or text (386) 288-1483 for a Free Estimate!">
   <meta name="keywords" content="pressure washing Lake City FL, car detailing Lake City, lawn care Lake City FL, mobile detailing Columbia County, TWOZAYZ">
@@ -24,17 +29,21 @@
   <meta property="og:site_name" content="TWOZAYZ Exterior & Auto Care">
   <meta property="og:title" content="TWOZAYZ | Pressure Washing, Car Detailing & Lawn Care • Lake City, FL">
   <meta property="og:description" content="Lake City's twin-brother owned exterior care team. Driveways, house washing, showroom vehicle detailing & precision lawn care. Call or text (386) 288-1483 for a Free Estimate!">
-  <meta property="og:image" content="og-preview.jpg">
+  <meta property="og:image" content="https://twozayz.com/og-preview.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="TWOZAYZ - Pressure Washing, Car Detailing, Lawn Care in Lake City, FL">
+  <meta property="og:url" content="https://twozayz.com/">
   <meta property="og:locale" content="en_US">
 
   <!-- Twitter / X Cards -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="TWOZAYZ | Pressure Washing, Car Detailing & Lawn Care • Lake City, FL">
   <meta name="twitter:description" content="Lake City's twin-brother owned exterior care team. Fast Free Estimates! Call or text (386) 288-1483.">
-  <meta name="twitter:image" content="og-preview.jpg">
+  <meta name="twitter:image" content="https://twozayz.com/og-preview.jpg">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://twozayz.com/">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="crown-icon.png">
@@ -49,6 +58,37 @@
     "description": "Local twin-brother owned exterior care business providing pressure washing, mobile car detailing, and lawn care in Lake City, FL.",
     "telephone": "+1-386-288-1483",
     "email": "Twozayz@gmail.com",
+    "url": "https://twozayz.com/",
+    "logo": "https://twozayz.com/twozayz-logo.png",
+    "image": "https://twozayz.com/og-preview.jpg",
+    "priceRange": "$",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Lake City",
+      "addressRegion": "FL",
+      "postalCode": "32025",
+      "addressCountry": "US"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 30.1897,
+      "longitude": -82.6393
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+        ],
+        "opens": "07:30",
+        "closes": "18:30"
+      }
+    ],
     "areaServed": [
       {
         "@type": "City",
@@ -60,8 +100,6 @@
         "name": "Columbia County, FL"
       }
     ],
-    "priceRange": "$",
-    "image": "og-preview.jpg",
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": "Exterior Services",
@@ -110,10 +148,10 @@
   <header class="navbar">
     <div class="container nav-container">
       <a href="#" class="brand-logo" aria-label="TWOZAYZ Home">
-        <img src="twozayz-logo.png" alt="TWOZAYZ - Pressure Washing, Car Detailing, Lawn Care" class="navbar-logo-img">
+        <img src="twozayz-logo.png" alt="TWOZAYZ - Pressure Washing, Car Detailing, Lawn Care" class="navbar-logo-img" width="180" height="52">
       </a>
 
-      <nav>
+      <nav aria-label="Main Navigation">
         <ul class="nav-links" id="navLinks">
           <li><a href="#home" class="nav-link active">Home</a></li>
           <li><a href="#services" class="nav-link">Services</a></li>
@@ -126,13 +164,13 @@
       </nav>
 
       <div class="nav-actions">
-        <a href="tel:3862881483" class="btn btn-phone" aria-label="Call Twozayz">
+        <a href="tel:3862881483" class="btn btn-phone" aria-label="Call Twozayz directly">
           <span style="white-space: nowrap;">📞 (386) 288-1483</span>
         </a>
         <a href="#quote-tool" class="btn btn-cyan">Get Free Estimate</a>
       </div>
 
-      <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+      <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
         ☰
       </button>
     </div>
@@ -142,7 +180,7 @@
   <section class="hero" id="home">
     <div class="container hero-grid">
       <div class="hero-content">
-        <img src="twozayz-banner-logo.png" alt="TWOZAYZ - Pressure Washing • Car Detailing • Lawn Care" class="hero-logo-img">
+        <img src="twozayz-banner-logo.png" alt="TWOZAYZ - Pressure Washing • Car Detailing • Lawn Care" class="hero-logo-img" width="520" height="150" fetchpriority="high">
         <h1 class="hero-title" style="font-size: 1.6rem; margin-top: 0.25rem;">
           <span class="text-gradient">Lake City's Premier Exterior & Auto Care</span>
         </h1>
@@ -162,21 +200,21 @@
 
         <div class="hero-trust-badges">
           <div class="trust-item">
-            <div class="trust-icon">⚡</div>
+            <div class="trust-icon" aria-hidden="true">⚡</div>
             <div class="trust-text">
               <h4>Free Estimates</h4>
               <p>No obligation quotes</p>
             </div>
           </div>
           <div class="trust-item">
-            <div class="trust-icon">📍</div>
+            <div class="trust-icon" aria-hidden="true">📍</div>
             <div class="trust-text">
               <h4>Lake City Local</h4>
               <p>Columbia County, FL</p>
             </div>
           </div>
           <div class="trust-item">
-            <div class="trust-icon">💬</div>
+            <div class="trust-icon" aria-hidden="true">💬</div>
             <div class="trust-text">
               <h4>Call or Text Today</h4>
               <p>Direct communication</p>
@@ -196,7 +234,7 @@
 
             <div class="card-services-list">
               <div class="card-service-item">
-                <div class="service-icon-box icon-pressure">💦</div>
+                <div class="service-icon-box icon-pressure" aria-hidden="true">💦</div>
                 <div class="service-info">
                   <h5>Pressure Washing</h5>
                   <p>Driveways, House Washing, Patios & Fences</p>
@@ -204,7 +242,7 @@
               </div>
 
               <div class="card-service-item">
-                <div class="service-icon-box icon-detail">🚘</div>
+                <div class="service-icon-box icon-detail" aria-hidden="true">🚘</div>
                 <div class="service-info">
                   <h5>Car Detailing</h5>
                   <p>Interior & Exterior, Vacuum & Windows, Tire Shine</p>
@@ -212,7 +250,7 @@
               </div>
 
               <div class="card-service-item">
-                <div class="service-icon-box icon-lawn">🌿</div>
+                <div class="service-icon-box icon-lawn" aria-hidden="true">🌿</div>
                 <div class="service-info">
                   <h5>Lawn Care</h5>
                   <p>Mowing, Edging, Yard Cleanup</p>
@@ -222,7 +260,7 @@
           </div>
 
           <div class="floating-callout">
-            <div class="contact-icon-box">📲</div>
+            <div class="contact-icon-box" aria-hidden="true">📲</div>
             <div>
               <div style="font-size: 0.75rem; color: var(--cyan-bright); font-weight: 700;">CALL OR TEXT TODAY</div>
               <div class="callout-number">386-288-1483</div>
@@ -248,7 +286,7 @@
         <!-- Service 1: Pressure Washing -->
         <div class="service-card">
           <div class="service-card-img-wrap">
-            <img src="driveway-after.jpg" alt="Pressure Washing Driveways Lake City FL" class="service-card-img">
+            <img src="driveway-after.jpg" alt="Pressure Washing Driveways Lake City FL" class="service-card-img" width="400" height="190" loading="lazy">
             <div class="service-badge badge-pressure">💦 Hydro Wash</div>
           </div>
           <h3 class="service-card-title">Pressure Washing</h3>
@@ -256,10 +294,10 @@
             Blast away years of Florida dirt, algae, oil stains, and grime from hard surfaces.
           </p>
           <ul class="service-checklist">
-            <li><span class="check-icon">✓</span> Driveways & Sidewalks</li>
-            <li><span class="check-icon">✓</span> Complete House Washing</li>
-            <li><span class="check-icon">✓</span> Patios, Decks & Fences</li>
-            <li><span class="check-icon">✓</span> Soft-Wash & High Pressure</li>
+            <li><span class="check-icon" aria-hidden="true">✓</span> Driveways & Sidewalks</li>
+            <li><span class="check-icon" aria-hidden="true">✓</span> Complete House Washing</li>
+            <li><span class="check-icon" aria-hidden="true">✓</span> Patios, Decks & Fences</li>
+            <li><span class="check-icon" aria-hidden="true">✓</span> Soft-Wash & High Pressure</li>
           </ul>
           <a href="#quote-tool" class="btn btn-outline service-card-btn" data-service="pressure">
             Request Pressure Washing
@@ -269,7 +307,7 @@
         <!-- Service 2: Car Detailing -->
         <div class="service-card">
           <div class="service-card-img-wrap">
-            <img src="auto-after.jpg" alt="Mobile Car Detailing Lake City FL" class="service-card-img">
+            <img src="auto-after.jpg" alt="Mobile Car Detailing Lake City FL" class="service-card-img" width="400" height="190" loading="lazy">
             <div class="service-badge badge-detail">🚘 Mobile Detailing</div>
           </div>
           <h3 class="service-card-title">Car Detailing</h3>
@@ -277,10 +315,10 @@
             Showroom shine brought straight to your driveway. We restore interiors and exteriors.
           </p>
           <ul class="service-checklist">
-            <li><span class="check-icon">✓</span> Full Interior & Exterior Wash</li>
-            <li><span class="check-icon">✓</span> Deep Vacuum & Windows</li>
-            <li><span class="check-icon">✓</span> Glossy Tire Shine & Dressing</li>
-            <li><span class="check-icon">✓</span> Paint Reflection & Trim Care</li>
+            <li><span class="check-icon" aria-hidden="true">✓</span> Full Interior & Exterior Wash</li>
+            <li><span class="check-icon" aria-hidden="true">✓</span> Deep Vacuum & Windows</li>
+            <li><span class="check-icon" aria-hidden="true">✓</span> Glossy Tire Shine & Dressing</li>
+            <li><span class="check-icon" aria-hidden="true">✓</span> Paint Reflection & Trim Care</li>
           </ul>
           <a href="#quote-tool" class="btn btn-outline service-card-btn" data-service="detail">
             Request Car Detailing
@@ -290,7 +328,7 @@
         <!-- Service 3: Lawn Care -->
         <div class="service-card card-lawn">
           <div class="service-card-img-wrap">
-            <img src="lawn-after.jpg" alt="Lawn Care & Edging Lake City FL" class="service-card-img">
+            <img src="lawn-after.jpg" alt="Lawn Care & Edging Lake City FL" class="service-card-img" width="400" height="190" loading="lazy">
             <div class="service-badge badge-lawn">🌿 Turf Care</div>
           </div>
           <h3 class="service-card-title">Lawn Care</h3>
@@ -298,10 +336,10 @@
             Keep your lawn looking lush, neatly trimmed, and crisp all season long.
           </p>
           <ul class="service-checklist">
-            <li><span class="check-icon">✓</span> Precision Mowing</li>
-            <li><span class="check-icon">✓</span> Sharp Edging & Trimming</li>
-            <li><span class="check-icon">✓</span> Yard Cleanup & Debris Removal</li>
-            <li><span class="check-icon">✓</span> Scheduled Maintenance</li>
+            <li><span class="check-icon" aria-hidden="true">✓</span> Precision Mowing</li>
+            <li><span class="check-icon" aria-hidden="true">✓</span> Sharp Edging & Trimming</li>
+            <li><span class="check-icon" aria-hidden="true">✓</span> Yard Cleanup & Debris Removal</li>
+            <li><span class="check-icon" aria-hidden="true">✓</span> Scheduled Maintenance</li>
           </ul>
           <a href="#quote-tool" class="btn btn-outline service-card-btn" data-service="lawn">
             Request Lawn Care
@@ -331,16 +369,16 @@
         </div>
 
         <div class="ba-slider" id="baSlider">
-          <img src="truck-after.jpg" class="ba-img ba-img-after" id="baAfterImg" alt="TWOZAYZ Clean After">
+          <img src="truck-after.jpg" class="ba-img ba-img-after" id="baAfterImg" alt="TWOZAYZ Clean After" width="900" height="480">
           <span class="ba-label ba-label-after">AFTER - TWOZAYZ CLEAN</span>
           
           <div class="ba-image-before" id="baBeforeImage">
-            <img src="truck-before.jpg" class="ba-img ba-img-before" id="baBeforeImg" alt="Before Cleaning">
+            <img src="truck-before.jpg" class="ba-img ba-img-before" id="baBeforeImg" alt="Before Cleaning" width="900" height="480">
             <span class="ba-label ba-label-before">BEFORE</span>
           </div>
           
           <div class="ba-handle" id="baHandle">
-            <div class="ba-handle-button">↔</div>
+            <div class="ba-handle-button" aria-hidden="true">↔</div>
           </div>
         </div>
       </div>
@@ -360,15 +398,15 @@
         <!-- Trust badge bar -->
         <div class="reviews-trust-bar">
           <div class="trust-badge-pill">
-            <span class="stars-gold">★★★★★</span>
+            <span class="stars-gold" aria-hidden="true">★★★★★</span>
             <span class="trust-pill-text"><strong>5.0 Star Rating</strong></span>
           </div>
           <div class="trust-badge-pill">
-            <span>👑</span>
+            <span aria-hidden="true">👑</span>
             <span class="trust-pill-text"><strong>100% Lake City Local</strong></span>
           </div>
           <div class="trust-badge-pill">
-            <span>⚡</span>
+            <span aria-hidden="true">⚡</span>
             <span class="trust-pill-text"><strong>Fast Free Estimates</strong></span>
           </div>
         </div>
@@ -378,12 +416,12 @@
         <!-- Review 1: Pressure Washing -->
         <div class="review-card">
           <div class="review-service-badge badge-pressure">💦 Driveway & Sidewalk Wash</div>
-          <div class="review-stars">★★★★★</div>
+          <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="review-body">
             "TWOZAYZ blasted away years of Florida mildew, tire marks, and baked-in oil from our driveway and front entryway. Looked like fresh poured concrete when they finished! Super professional, prompt response, and fair pricing."
           </p>
           <div class="review-author">
-            <div class="author-avatar">Marcus T.</div>
+            <div class="author-avatar" aria-hidden="true">MT</div>
             <div>
               <div class="author-name">Marcus T.</div>
               <div class="author-loc">📍 Southside Lake City, FL • <span class="verified-tag">✓ Verified Customer</span></div>
@@ -394,12 +432,12 @@
         <!-- Review 2: Car Detailing -->
         <div class="review-card">
           <div class="review-service-badge badge-detail">🚘 Mobile SUV Detailing & Tire Shine</div>
-          <div class="review-stars">★★★★★</div>
+          <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="review-body">
             "Had my black Chevy Tahoe detailed right in my driveway. The paint reflection was like a mirror, interior deep vacuumed clean, and that glossy tire shine lasted for weeks. Best mobile detailing in Columbia County!"
           </p>
           <div class="review-author">
-            <div class="author-avatar">Jerome R.</div>
+            <div class="author-avatar" aria-hidden="true">JR</div>
             <div>
               <div class="author-name">Jerome R.</div>
               <div class="author-loc">📍 Lake City, FL • <span class="verified-tag">✓ Verified Customer</span></div>
@@ -410,12 +448,12 @@
         <!-- Review 3: Lawn Care -->
         <div class="review-card card-lawn-review">
           <div class="review-service-badge badge-lawn">🌿 Turf Mowing & Precision Edging</div>
-          <div class="review-stars">★★★★★</div>
+          <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="review-body">
             "Precision lines, sharp edging around the curb and flowerbeds, and zero debris left behind. They treat your yard like it's their own. Dependable, affordable, and easy to communicate with over text."
           </p>
           <div class="review-author">
-            <div class="author-avatar avatar-lawn">Brittany & Dave K.</div>
+            <div class="author-avatar avatar-lawn" aria-hidden="true">BK</div>
             <div>
               <div class="author-name">Brittany & Dave K.</div>
               <div class="author-loc">📍 Alligator Lake Area • <span class="verified-tag">✓ Verified Customer</span></div>
@@ -426,12 +464,12 @@
         <!-- Review 4: Full Package -->
         <div class="review-card">
           <div class="review-service-badge badge-full">👑 Full Exterior Wash & Patio</div>
-          <div class="review-stars">★★★★★</div>
+          <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="review-body">
             "Requested an estimate through their site and got a text back within 15 minutes. They washed our house siding and back deck spotless for a family gathering. Support this local business — you won't regret it!"
           </p>
           <div class="review-author">
-            <div class="author-avatar">Alicia M.</div>
+            <div class="author-avatar" aria-hidden="true">AM</div>
             <div>
               <div class="author-name">Alicia M.</div>
               <div class="author-loc">📍 Downtown Lake City • <span class="verified-tag">✓ Verified Customer</span></div>
@@ -455,20 +493,20 @@
         <form id="quoteForm">
           <div class="form-group-title">1. Select Service(s) Required:</div>
           <div class="service-selector-grid">
-            <div class="selector-card selected" data-value="Pressure Washing">
-              <span class="selector-icon">💦</span>
+            <div class="selector-card selected" data-value="Pressure Washing" tabindex="0" role="button" aria-pressed="true">
+              <span class="selector-icon" aria-hidden="true">💦</span>
               <span class="selector-label">Pressure Washing</span>
             </div>
-            <div class="selector-card" data-value="Car Detailing">
-              <span class="selector-icon">🚘</span>
+            <div class="selector-card" data-value="Car Detailing" tabindex="0" role="button" aria-pressed="false">
+              <span class="selector-icon" aria-hidden="true">🚘</span>
               <span class="selector-label">Car Detailing</span>
             </div>
-            <div class="selector-card" data-value="Lawn Care">
-              <span class="selector-icon">🌿</span>
+            <div class="selector-card" data-value="Lawn Care" tabindex="0" role="button" aria-pressed="false">
+              <span class="selector-icon" aria-hidden="true">🌿</span>
               <span class="selector-label">Lawn Care</span>
             </div>
-            <div class="selector-card" data-value="Full Property Package">
-              <span class="selector-icon">👑</span>
+            <div class="selector-card" data-value="Full Property Package" tabindex="0" role="button" aria-pressed="false">
+              <span class="selector-icon" aria-hidden="true">👑</span>
               <span class="selector-label">All 3 Services</span>
             </div>
           </div>
@@ -476,7 +514,7 @@
           <div class="form-group-title">2. Details & Scope:</div>
           <div class="form-row">
             <div>
-              <label style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 600;">Service Focus / Scope</label>
+              <label for="serviceScope" style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 600;">Service Focus / Scope</label>
               <select class="input-field" id="serviceScope">
                 <option value="Driveway & Sidewalk">Driveway / Sidewalk Pressure Wash</option>
                 <option value="House Wash">Full House Exterior Wash</option>
@@ -486,7 +524,7 @@
               </select>
             </div>
             <div>
-              <label style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 600;">Preferred Timing</label>
+              <label for="preferredTime" style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 600;">Preferred Timing</label>
               <select class="input-field" id="preferredTime">
                 <option value="ASAP">As Soon As Possible</option>
                 <option value="This Week">Within This Week</option>
@@ -498,14 +536,27 @@
 
           <div class="form-group-title">3. Your Contact Details (Lake City Area):</div>
           <div class="form-row">
-            <input type="text" class="input-field" id="clientName" placeholder="Full Name *" required>
-            <input type="tel" class="input-field" id="clientPhone" placeholder="Phone Number (Call or Text) *" required>
+            <div>
+              <label for="clientName" class="sr-only">Full Name</label>
+              <input type="text" class="input-field" id="clientName" placeholder="Full Name *" required autocomplete="name">
+            </div>
+            <div>
+              <label for="clientPhone" class="sr-only">Phone Number</label>
+              <input type="tel" class="input-field" id="clientPhone" placeholder="Phone Number (Call or Text) *" required autocomplete="tel">
+            </div>
           </div>
           <div class="form-row">
-            <input type="email" class="input-field" id="clientEmail" placeholder="Email Address">
-            <input type="text" class="input-field" id="clientAddress" placeholder="Neighborhood or Address in Lake City, FL">
+            <div>
+              <label for="clientEmail" class="sr-only">Email Address</label>
+              <input type="email" class="input-field" id="clientEmail" placeholder="Email Address" autocomplete="email">
+            </div>
+            <div>
+              <label for="clientAddress" class="sr-only">Neighborhood or Address in Lake City, FL</label>
+              <input type="text" class="input-field" id="clientAddress" placeholder="Neighborhood or Address in Lake City, FL" autocomplete="street-address">
+            </div>
           </div>
           <div style="margin-bottom: 2rem;">
+            <label for="clientNotes" class="sr-only">Specific instructions or details</label>
             <textarea class="input-field" id="clientNotes" placeholder="Any specific instructions or details? (e.g., 2-car driveway, black SUV detailing, 0.5 acre yard)"></textarea>
           </div>
 
@@ -548,7 +599,7 @@
 
           <div class="contact-methods">
             <a href="tel:3862881483" class="contact-item">
-              <div class="contact-icon-box">📞</div>
+              <div class="contact-icon-box" aria-hidden="true">📞</div>
               <div class="contact-details">
                 <h5>Call Us Directly</h5>
                 <p>386-288-1483</p>
@@ -556,7 +607,7 @@
             </a>
 
             <a href="sms:3862881483" class="contact-item">
-              <div class="contact-icon-box">💬</div>
+              <div class="contact-icon-box" aria-hidden="true">💬</div>
               <div class="contact-details">
                 <h5>Text Us Anytime</h5>
                 <p>386-288-1483</p>
@@ -564,7 +615,7 @@
             </a>
 
             <a href="mailto:Twozayz@gmail.com" class="contact-item">
-              <div class="contact-icon-box">✉️</div>
+              <div class="contact-icon-box" aria-hidden="true">✉️</div>
               <div class="contact-details">
                 <h5>Email Us</h5>
                 <p>Twozayz@gmail.com</p>
@@ -579,7 +630,7 @@
           
           <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1.25rem;">
             <div style="display: flex; gap: 1rem;">
-              <div style="font-size: 1.5rem; color: var(--gold-crown);">👑</div>
+              <div style="font-size: 1.5rem; color: var(--gold-crown);" aria-hidden="true">👑</div>
               <div>
                 <h4 style="font-size: 1.1rem; font-weight: 700;">Twin-Brother Owned &amp; Operated</h4>
                 <p style="color: var(--text-secondary); font-size: 0.9rem;">Founded by local Lake City twin brothers with an old-school work ethic. When you book TWOZAYZ, the owners themselves are on-site doing the work with personal pride and zero cut corners.</p>
@@ -587,7 +638,7 @@
             </div>
 
             <div style="display: flex; gap: 1rem;">
-              <div style="font-size: 1.5rem; color: var(--cyan-bright);">⚡</div>
+              <div style="font-size: 1.5rem; color: var(--cyan-bright);" aria-hidden="true">⚡</div>
               <div>
                 <h4 style="font-size: 1.1rem; font-weight: 700;">Fast, Direct Communication</h4>
                 <p style="color: var(--text-secondary); font-size: 0.9rem;">No call centers or runarounds. Call or text us directly for fast free estimates, flexible scheduling, and prompt updates.</p>
@@ -595,7 +646,7 @@
             </div>
 
             <div style="display: flex; gap: 1rem;">
-              <div style="font-size: 1.5rem; color: var(--green-lawn);">✨</div>
+              <div style="font-size: 1.5rem; color: var(--green-lawn);" aria-hidden="true">✨</div>
               <div>
                 <h4 style="font-size: 1.1rem; font-weight: 700;">Top-Tier Equipment &amp; Care</h4>
                 <p style="color: var(--text-secondary); font-size: 0.9rem;">From commercial driveway surface cleaners to premium vehicle tire shine and razor-sharp edging, we treat every customer's home and ride like our own.</p>
@@ -613,7 +664,7 @@
       <div class="footer-grid">
         <div class="footer-about">
           <a href="#" class="brand-logo" aria-label="TWOZAYZ Home" style="margin-bottom: 0.75rem;">
-            <img src="twozayz-logo.png" alt="TWOZAYZ" class="footer-logo-img">
+            <img src="twozayz-logo.png" alt="TWOZAYZ" class="footer-logo-img" width="160" height="46" loading="lazy">
           </a>
           <p>
             Pressure Washing • Car Detailing • Lawn Care<br>
@@ -670,10 +721,10 @@
 
   <!-- Confirmation Modal with Real Lead Actions -->
   <div class="modal-overlay" id="confirmModal">
-    <div class="modal-content">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalHeading">
       <button class="modal-close" id="modalClose" aria-label="Close dialog">&times;</button>
-      <div class="modal-icon">👑</div>
-      <h3 style="font-size: 1.8rem; margin-bottom: 0.35rem;">Estimate Requested!</h3>
+      <div class="modal-icon" aria-hidden="true">👑</div>
+      <h3 id="modalHeading" style="font-size: 1.8rem; margin-bottom: 0.35rem;">Estimate Requested!</h3>
       
       <!-- Live Status Badge -->
       <div id="modalStatusBadge" class="modal-status-badge">
