@@ -399,7 +399,7 @@
         <div class="reviews-trust-bar">
           <div class="trust-badge-pill">
             <span class="stars-gold" aria-hidden="true">★★★★★</span>
-            <span class="trust-pill-text"><strong>5.0 Star Rating</strong></span>
+            <span class="trust-pill-text"><strong id="liveReviewCountBadge">5.0 Star Rating</strong></span>
           </div>
           <div class="trust-badge-pill">
             <span aria-hidden="true">👑</span>
@@ -410,9 +410,15 @@
             <span class="trust-pill-text"><strong>Fast Free Estimates</strong></span>
           </div>
         </div>
+
+        <div style="margin-top: 1.5rem;">
+          <a href="#leave-review-box" class="btn btn-outline btn-sm-pill">
+            <span aria-hidden="true">⭐</span> <span>Leave a Customer Review</span>
+          </a>
+        </div>
       </div>
 
-      <div class="reviews-grid">
+      <div class="reviews-grid" id="reviewsGrid">
         <!-- Review 1: Pressure Washing -->
         <div class="review-card">
           <div class="review-service-badge badge-pressure">💦 Driveway & Sidewalk Wash</div>
@@ -476,6 +482,65 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Interactive Leave A Review Card -->
+      <div class="review-form-card" id="leave-review-box">
+        <div class="review-form-header">
+          <span class="hero-badge" style="margin-bottom: 0.6rem;">⭐ SHARE YOUR EXPERIENCE</span>
+          <h3>Leave a Review for TWOZAYZ</h3>
+          <p>Had your driveway washed, ride detailed, or yard edged by us? Tap a star rating below and let Lake City know how we did!</p>
+        </div>
+
+        <form id="reviewForm" class="review-form-body">
+          <input type="hidden" id="starRatingInput" value="5">
+
+          <div class="star-rating-wrap">
+            <span class="star-picker-title">Tap to Rate Your Experience:</span>
+            <div class="star-rating-picker" id="starRatingPicker" role="radiogroup" aria-label="Star Rating">
+              <button type="button" class="star-pick-btn active" data-rating="1" aria-label="1 Star">★</button>
+              <button type="button" class="star-pick-btn active" data-rating="2" aria-label="2 Stars">★</button>
+              <button type="button" class="star-pick-btn active" data-rating="3" aria-label="3 Stars">★</button>
+              <button type="button" class="star-pick-btn active" data-rating="4" aria-label="4 Stars">★</button>
+              <button type="button" class="star-pick-btn active" data-rating="5" aria-label="5 Stars">★</button>
+            </div>
+            <div class="star-rating-label" id="starRatingLabel">5.0 ★ — Spotless Showroom Results!</div>
+          </div>
+
+          <div class="form-row">
+            <div>
+              <label for="reviewName" class="review-field-label">Your Name *</label>
+              <input type="text" class="input-field" id="reviewName" placeholder="e.g. Marcus T." maxlength="60" required>
+            </div>
+            <div>
+              <label for="reviewLocation" class="review-field-label">Area / Neighborhood</label>
+              <input type="text" class="input-field" id="reviewLocation" placeholder="e.g. Lake City, FL or Southside" maxlength="60">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div style="grid-column: 1 / -1;">
+              <label for="reviewService" class="review-field-label">Service Received *</label>
+              <select class="input-field" id="reviewService" required>
+                <option value="Pressure Washing">💦 Pressure Washing (Driveway, Sidewalk, House)</option>
+                <option value="Car Detailing">🚘 Mobile Car / Truck / SUV Detailing</option>
+                <option value="Lawn Care">🌿 Lawn Care, Mowing & Precision Edging</option>
+                <option value="Full Package">👑 Full Property & Auto Package</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 1.5rem;">
+            <label for="reviewComment" class="review-field-label">Your Review *</label>
+            <textarea class="input-field" id="reviewComment" placeholder="Tell us how your property or vehicle turned out..." maxlength="800" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-cyan btn-lg" id="reviewSubmitBtn" style="width: 100%;">
+            <span aria-hidden="true">⭐</span> <span>Post Customer Review</span>
+          </button>
+
+          <div id="reviewFormFeedback" class="review-feedback-banner" aria-live="polite"></div>
+        </form>
       </div>
     </div>
   </section>

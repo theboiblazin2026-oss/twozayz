@@ -1401,6 +1401,148 @@ textarea.input-field {
   font-weight: 700;
 }
 
+.btn-sm-pill {
+  padding: 0.55rem 1.25rem;
+  font-size: 0.88rem;
+}
+
+.review-card-live-new {
+  border-color: var(--cyan-bright);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65), 0 0 22px rgba(0, 210, 255, 0.25);
+  animation: fadeInReview 0.45s ease-out;
+}
+
+@keyframes fadeInReview {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.review-form-card {
+  max-width: 820px;
+  margin: 3.5rem auto 0;
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(7, 12, 22, 0.98));
+  border: 1px solid var(--border-glow);
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 210, 255, 0.12);
+}
+
+.review-form-header {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.review-form-header h3 {
+  font-size: 1.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.review-form-header p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+.star-rating-wrap {
+  background: rgba(7, 10, 18, 0.75);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 1.25rem 1rem;
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.star-picker-title {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  margin-bottom: 0.6rem;
+}
+
+.star-rating-picker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.star-pick-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  width: 50px;
+  height: 50px;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: rgba(148, 163, 184, 0.35);
+  cursor: pointer;
+  transition: transform 0.18s ease, color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.star-pick-btn:hover,
+.star-pick-btn.active {
+  color: #ffd700;
+  border-color: rgba(255, 215, 0, 0.55);
+  background: rgba(255, 215, 0, 0.12);
+  text-shadow: 0 0 12px rgba(255, 215, 0, 0.75);
+  transform: translateY(-2px);
+}
+
+.star-rating-label {
+  margin-top: 0.65rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #ffd700;
+}
+
+.review-field-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.45rem;
+  font-weight: 600;
+}
+
+.review-feedback-banner {
+  display: none;
+  margin-top: 1.25rem;
+  padding: 1.15rem 1.25rem;
+  border-radius: 16px;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  text-align: left;
+}
+
+.review-feedback-banner.active {
+  display: block;
+  animation: fadeInReview 0.3s ease-out;
+}
+
+.review-feedback-banner.feedback-public {
+  background: rgba(16, 185, 129, 0.14);
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  color: #ecfdf5;
+}
+
+.review-feedback-banner.feedback-private {
+  background: rgba(0, 210, 255, 0.12);
+  border: 1px solid rgba(0, 210, 255, 0.45);
+  color: #f0f9ff;
+}
+
 /* ==========================================================================
    Upgraded Modal & Lead Notification Actions
    ========================================================================== */
@@ -1624,6 +1766,21 @@ textarea.input-field {
     width: 100%;
     white-space: normal;
     text-align: center;
+  }
+
+  .review-form-card {
+    padding: 1.75rem 1.25rem;
+    margin-top: 2.5rem;
+  }
+
+  .review-form-header h3 {
+    font-size: 1.5rem;
+  }
+
+  .star-pick-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 1.5rem;
   }
 
   .service-selector-grid {

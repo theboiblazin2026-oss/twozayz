@@ -15,7 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // 4. Estimate Selector & Form Handling
   initQuoteForm();
 
-  // 5. General Interactivity & Year
+  // 5. Live Customer Reviews & Smart Reputation Shield
+  initLiveReviews();
+
+  // 6. General Interactivity & Year
   document.getElementById('currentYear').textContent = new Date().getFullYear();
 });
 
@@ -509,6 +512,297 @@ function initQuoteForm() {
 
   if (modalClose) modalClose.addEventListener('click', () => modal.classList.remove('active'));
   if (modalOkBtn) modalOkBtn.addEventListener('click', () => modal.classList.remove('active'));
+}
+
+/* ==========================================================================
+   5. Live Customer Reviews & Smart Reputation Shield (Option A)
+   ========================================================================== */
+const TWOZAYZ_SUPABASE_CONFIG = {
+  url: window.TWOZAYZ_SUPABASE_URL || 'https://rxkypdnjaptvhyqyollk.supabase.co',
+  anonKey: window.TWOZAYZ_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4a3lwZG5qYXB0dmh5cXlvbGxrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA0ODMyODEsImV4cCI6MjA4NjA1OTI4MX0.4nHymxb4uoiVD40mId0gvoBLLGkaTxcakQ95jhf1CtQ',
+  table: 'twozayz_reviews'
+};
+
+const TWOZAYZ_REVIEWS_STORAGE_KEY = 'twozayz_live_reviews_v1';
+
+const RATING_LABELS = {
+  5: '5.0 ★ — Spotless Showroom Results!',
+  4: '4.0 ★ — Great Service & Results!',
+  3: '3.0 ★ — Average Experience (Private Owner Feedback)',
+  2: '2.0 ★ — Below Expectations (Private Owner Feedback)',
+  1: '1.0 ★ — Needs Immediate Attention (Private Owner Feedback)'
+};
+
+function initLiveReviews() {
+  const reviewForm = document.getElementById('reviewForm');
+  const reviewsGrid = document.getElementById('reviewsGrid');
+  const starPicker = document.getElementById('starRatingPicker');
+  const starInput = document.getElementById('starRatingInput');
+  const starLabel = document.getElementById('starRatingLabel');
+  const feedbackBanner = document.getElementById('reviewFormFeedback');
+  const submitBtn = document.getElementById('reviewSubmitBtn');
+
+  if (!reviewForm || !reviewsGrid || !starPicker || !starInput) return;
+
+  const starBtns = Array.from(starPicker.querySelectorAll('.star-pick-btn'));
+
+  function setStarSelection(ratingValue) {
+    const rating = Math.max(1, Math.min(5, parseInt(ratingValue, 10) || 5));
+    starInput.value = String(rating);
+    starBtns.forEach(btn => {
+      const btnVal = parseInt(btn.dataset.rating, 10);
+      btn.classList.toggle('active', btnVal <= rating);
+    });
+    if (starLabel) {
+      starLabel.textContent = RATING_LABELS[rating] || RATING_LABELS[5];
+      starLabel.style.color = rating >= 4 ? '#ffd700' : 'var(--cyan-bright)';
+    }
+  }
+
+  starBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      setStarSelection(btn.dataset.rating);
+    });
+  });
+
+  // Load saved live reviews on startup
+  loadAllPublicReviews(reviewsGrid);
+
+  reviewForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const customerName = (document.getElementById('reviewName').value || '').trim();
+    const neighborhood = (document.getElementById('reviewLocation').value || '').trim() || 'Lake City, FL';
+    const serviceType = (document.getElementById('reviewService').value || 'Pressure Washing').trim();
+    const reviewText = (document.getElementById('reviewComment').value || '').trim();
+    const rating = parseInt(starInput.value, 10) || 5;
+
+    if (!customerName || !reviewText) return;
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>⏳ Submitting...</span>';
+    }
+
+    const reviewRecord = {
+      id: 'local-' + Date.now(),
+      customer_name: customerName,
+      neighborhood: neighborhood,
+      service_type: serviceType,
+      rating: rating,
+      review_text: reviewText,
+      approved: rating >= 4,
+      created_at: new Date().toISOString()
+    };
+
+    // Option A: Smart Reputation Shield
+    if (rating >= 4) {
+      saveReviewToLocalCache(reviewRecord);
+      prependReviewCard(reviewsGrid, reviewRecord, true);
+      updateReviewCountBadge(reviewsGrid);
+      await insertReviewToSupabase(reviewRecord);
+      sendReviewEmailNotification(reviewRecord, true);
+
+      if (feedbackBanner) {
+        feedbackBanner.className = 'review-feedback-banner feedback-public active';
+        feedbackBanner.innerHTML = `
+          <strong>👑 Thank you, ${escapeHtml(customerName)}!</strong> Your ${rating}-star review is now live on the page above. We appreciate you supporting local Lake City twin-brother owned exterior care!
+        `;
+      }
+
+      const firstCard = reviewsGrid.querySelector('.review-card');
+      if (firstCard && typeof firstCard.scrollIntoView === 'function') {
+        setTimeout(() => {
+          firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 250);
+      }
+    } else {
+      // 1-3 Stars: Route privately to owners so they can make it right first
+      await insertReviewToSupabase(reviewRecord);
+      sendReviewEmailNotification(reviewRecord, false);
+
+      const directSmsBody = `Hi TWOZAYZ, this is ${customerName} (${neighborhood}). I just shared feedback about my ${serviceType} service: ${reviewText}`;
+      const smsHref = `sms:3862881483?&body=${encodeURIComponent(directSmsBody)}`;
+
+      if (feedbackBanner) {
+        feedbackBanner.className = 'review-feedback-banner feedback-private active';
+        feedbackBanner.innerHTML = `
+          <strong>⚡ Thank you for your honest feedback, ${escapeHtml(customerName)}.</strong><br>
+          As local twin-brother owners, we stand behind every job 100%. Your message has been sent directly to the owners at <strong>Twozayz@gmail.com</strong> so we can reach out and make this right for you personally.<br>
+          <a href="${smsHref}" class="btn btn-phone btn-sm-pill" style="margin-top: 0.75rem; display: inline-flex;">
+            💬 Text Owners Directly at (386) 288-1483
+          </a>
+        `;
+      }
+    }
+
+    reviewForm.reset();
+    setStarSelection(5);
+
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span aria-hidden="true">⭐</span> <span>Post Customer Review</span>';
+    }
+  });
+}
+
+function getServiceBadgeMeta(serviceType) {
+  const val = (serviceType || '').toLowerCase();
+  if (val.includes('detail') || val.includes('car') || val.includes('auto')) {
+    return { badgeClass: 'badge-detail', label: '🚘 Mobile Car Detailing', cardClass: '', avatarClass: '' };
+  }
+  if (val.includes('lawn') || val.includes('turf')) {
+    return { badgeClass: 'badge-lawn', label: '🌿 Lawn Care & Precision Edging', cardClass: 'card-lawn-review', avatarClass: 'avatar-lawn' };
+  }
+  if (val.includes('full') || val.includes('package')) {
+    return { badgeClass: 'badge-full', label: '👑 Full Property & Auto Package', cardClass: '', avatarClass: '' };
+  }
+  return { badgeClass: 'badge-pressure', label: '💦 Pressure Washing', cardClass: '', avatarClass: '' };
+}
+
+function getInitials(name) {
+  const parts = String(name || 'TZ').trim().split(/\s+/);
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }
+  return String(parts[0] || 'TZ').slice(0, 2).toUpperCase();
+}
+
+function prependReviewCard(reviewsGrid, rev, highlightNew = false) {
+  const meta = getServiceBadgeMeta(rev.service_type);
+  const rating = Math.max(4, Math.min(5, parseInt(rev.rating, 10) || 5));
+  const starsStr = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+  const initials = getInitials(rev.customer_name);
+
+  const card = document.createElement('div');
+  card.className = `review-card ${meta.cardClass} ${highlightNew ? 'review-card-live-new' : ''}`.trim();
+  card.dataset.reviewId = rev.id || '';
+  card.innerHTML = `
+    <div class="review-service-badge ${meta.badgeClass}">${meta.label}</div>
+    <div class="review-stars" aria-label="${rating} out of 5 stars">${starsStr}</div>
+    <p class="review-body">"${escapeHtml(rev.review_text)}"</p>
+    <div class="review-author">
+      <div class="author-avatar ${meta.avatarClass}" aria-hidden="true">${escapeHtml(initials)}</div>
+      <div>
+        <div class="author-name">${escapeHtml(rev.customer_name)}</div>
+        <div class="author-loc">📍 ${escapeHtml(rev.neighborhood || 'Lake City, FL')} • <span class="verified-tag">✓ Verified Customer</span></div>
+      </div>
+    </div>
+  `;
+  reviewsGrid.insertBefore(card, reviewsGrid.firstChild);
+}
+
+function updateReviewCountBadge(reviewsGrid) {
+  const badge = document.getElementById('liveReviewCountBadge');
+  if (!badge || !reviewsGrid) return;
+  const totalCards = reviewsGrid.querySelectorAll('.review-card').length;
+  badge.textContent = `5.0 Star Rating (${totalCards} Verified Reviews)`;
+}
+
+function getLocalCachedReviews() {
+  try {
+    const raw = localStorage.getItem(TWOZAYZ_REVIEWS_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (_) {
+    return [];
+  }
+}
+
+function saveReviewToLocalCache(reviewRecord) {
+  try {
+    const existing = getLocalCachedReviews();
+    existing.unshift(reviewRecord);
+    localStorage.setItem(TWOZAYZ_REVIEWS_STORAGE_KEY, JSON.stringify(existing.slice(0, 30)));
+  } catch (_) {
+    // Ignore storage quota errors
+  }
+}
+
+async function fetchReviewsFromSupabase() {
+  try {
+    const endpoint = `${TWOZAYZ_SUPABASE_CONFIG.url}/rest/v1/${TWOZAYZ_SUPABASE_CONFIG.table}?select=*&approved=eq.true&rating=gte.4&order=created_at.desc&limit=20`;
+    const res = await fetch(endpoint, {
+      headers: {
+        apikey: TWOZAYZ_SUPABASE_CONFIG.anonKey,
+        Authorization: `Bearer ${TWOZAYZ_SUPABASE_CONFIG.anonKey}`
+      }
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch (_) {
+    return [];
+  }
+}
+
+async function insertReviewToSupabase(reviewRecord) {
+  try {
+    const endpoint = `${TWOZAYZ_SUPABASE_CONFIG.url}/rest/v1/${TWOZAYZ_SUPABASE_CONFIG.table}`;
+    await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        apikey: TWOZAYZ_SUPABASE_CONFIG.anonKey,
+        Authorization: `Bearer ${TWOZAYZ_SUPABASE_CONFIG.anonKey}`,
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal'
+      },
+      body: JSON.stringify({
+        customer_name: reviewRecord.customer_name,
+        neighborhood: reviewRecord.neighborhood,
+        service_type: reviewRecord.service_type,
+        rating: reviewRecord.rating,
+        review_text: reviewRecord.review_text,
+        approved: reviewRecord.approved
+      })
+    });
+  } catch (_) {
+    // Graceful fallback if table migration has not been run yet
+  }
+}
+
+async function loadAllPublicReviews(reviewsGrid) {
+  const localReviews = getLocalCachedReviews().filter(r => r && r.rating >= 4);
+  const remoteReviews = await fetchReviewsFromSupabase();
+
+  const seen = new Set();
+  const merged = [...remoteReviews, ...localReviews].filter(rev => {
+    const key = `${rev.customer_name}|${rev.review_text}`.toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  // Prepend in chronological order so newest ends up on top
+  merged.reverse().forEach(rev => {
+    prependReviewCard(reviewsGrid, rev, false);
+  });
+
+  updateReviewCountBadge(reviewsGrid);
+}
+
+function sendReviewEmailNotification(reviewRecord, isPublic) {
+  const subjectPrefix = isPublic
+    ? `⭐ New ${reviewRecord.rating}-Star Live Review on TWOZAYZ.com`
+    : `⚠️ Private Customer Feedback (${reviewRecord.rating} Stars) - TWOZAYZ`;
+
+  fetch('https://formsubmit.co/ajax/Twozayz@gmail.com', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    },
+    body: JSON.stringify({
+      _subject: `${subjectPrefix} from ${reviewRecord.customer_name}`,
+      Review_Status: isPublic ? 'Published Live on Website (4-5 Stars)' : 'Held Privately for Owner Follow-Up (1-3 Stars)',
+      Star_Rating: `${reviewRecord.rating} / 5 Stars`,
+      Customer_Name: reviewRecord.customer_name,
+      Neighborhood: reviewRecord.neighborhood,
+      Service_Received: reviewRecord.service_type,
+      Customer_Review: reviewRecord.review_text,
+      _template: 'table'
+    })
+  }).catch(() => {});
 }
 
 function escapeHtml(str) {
